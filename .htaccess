@@ -1,0 +1,32 @@
+<IfModule mod_rewrite.c>
+<IfModule mod_negotiation.c>
+Options -MultiViews
+</IfModule>
+
+RewriteEngine On
+
+ErrorDocument 400 /verifikasi/error/404.php
+ErrorDocument 401 /verifikasi/error/404.php
+ErrorDocument 403 /verifikasi/error/403.php
+ErrorDocument 404 /verifikasi/error/404.php
+ErrorDocument 500 /verifikasi/error/404.php
+
+
+# Redirect Trailing Slashes If Not A Folder...
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)/$ /$1 [L,R=301]
+
+
+
+# Handle Front Controller...
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+#RewriteRule ^(.*)$ /verifikasi/index.php?hal=$1 [NC,L,QSA]
+RewriteRule ^login?$ ./login.php 
+RewriteRule ^keluar?$ ./logout.php
+
+# Handle Authorization Header
+RewriteCond %{HTTP:Authorization} .
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+</IfModule>
+
