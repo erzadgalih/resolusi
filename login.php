@@ -9,10 +9,10 @@ $day = date('D');
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>Log in | PT. Intidragon Suryatama Modified by: ERZAD GALIH WARDHANA</title>
+<title>Log in | RZ_CELL by: ERZAD GALIH WARDHANA</title>
 <!-- Tell the browser to be responsive to screen width -->
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-<link rel="icon" type="image/png" href="/verifikasi/assets/dist/img/dr.png">
+<link rel="icon" type="image/png" href="/verifikasi/assets/dist/img/rz.png">
 <!-- Bootstrap 3.3.7 -->
 <link rel="stylesheet" href="assets/bower_components/bootstrap/dist/css/bootstrap.min.css">
 <!-- Font Awesome -->

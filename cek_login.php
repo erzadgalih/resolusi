@@ -12,7 +12,7 @@ if (isset($_POST['login'])){
 	$username = mysqli_real_escape_string($koneksi,$username);
 	$password = stripslashes($_REQUEST['password']);
 	$password = mysqli_real_escape_string($koneksi,$password);
-	$query=mysqli_query($koneksi,"SELECT * FROM users_web WHERE username='$username' && password='".md5($password)."'");
+	$query=mysqli_query($koneksi,"SELECT * FROM user1 WHERE nama='$username' && passmd5='".md5($password)."'");
 	$num_rows=mysqli_num_rows($query);
 	$row=mysqli_fetch_array($query, MYSQLI_ASSOC);
 	if (mysqli_num_rows($query) === 1 ){
@@ -43,8 +43,8 @@ if (isset($_POST['login'])){
 		// 	header('location:index.php?hal=dashboard-level-'.$_SESSION['level']);
 		// }
 
-	$sqlNewData = "UPDATE users_web SET login_terakhir=now() WHERE username = '$username' ";
-	$koneksi->query($sqlNewData);
+	// $sqlNewData = "UPDATE users_web SET login_terakhir=now() WHERE username = '$username' ";
+	// $koneksi->query($sqlNewData);
 
 	}
 	else{

@@ -5,7 +5,7 @@
 		// $password		= "dr460n";
 	$username		= "root";
 	$password		= "";
-	$namadb			= "intidragon_db";
+	$namadb			= "rzprog_db";
 	$koneksi = mysqli_connect($nameserver,$username,$password,$namadb);
 		if(!$koneksi) {
 			die(header('Location: /verifikasi/error/offline.php'));

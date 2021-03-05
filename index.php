@@ -66,7 +66,7 @@ $level = $_SESSION['level'];
 	<a href="#" class="logo">
 		<!-- mini logo for sidebar mini 50x50 pixels -->
 		<!-- <span class="logo-mini"><b>ID</b>ST</span> -->
-		<img src="assets/dist/img/dr.png" width="30px" height="30px">
+		<img src="assets/dist/img/rz.png" width="30px" height="30px">
 		<!-- logo for regular state and mobile devices -->
 		<!-- <span class="logo-lg"><b>PT.</b> Intidragon</span> -->
 	</a>
