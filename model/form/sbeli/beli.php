@@ -10,9 +10,9 @@ $level = $_SESSION['level'];
 			<div class="box-header with-border">
 				<div class="col-xs-12">
 					<h3 class="box-title">
-						Master Barang
+						TRANSAKSI PEMBELIAN
 					</h3>
-					<a href="?hal=proses-fbrg" type="button" class="pull-right btn btn-success"> <i class="fa fa-plus"></i>  TAMBAH BARANG</a>
+					<a href="?hal=proses-fbeli" type="button" class="pull-right btn btn-success"> <i class="fa fa-plus"></i>  TAMBAH TRANSAKSI</a>
 				</div>
 			</div>
 			<div class="box-body table-responsive">
@@ -28,7 +28,7 @@ $level = $_SESSION['level'];
 					</div>
 				</div>
 
-				<div id="view"><?php include "brg-view.php"; ?></div>
+				<div id="view"><?php include "beli-view.php"; ?></div>
 
 
 
@@ -37,4 +37,4 @@ $level = $_SESSION['level'];
 	</div>
 </div>
 
-<script src="/rzcell/model/form/sbrg/brg.js"></script>
+<script src="/rzcell/model/form/sbeli/beli.js"></script>

@@ -7,7 +7,7 @@
 			<div class="box-header with-border">
 				<div class="col-xs-12">
 					<h3 class="box-title">
-						MASTER BARANG
+						LIST MASTER PELANGGAN 
 					</h3>
 				</div>
 			</div>
@@ -23,10 +23,10 @@
 						</div>
 					</div>
 				</div>
-				<div id="view"><?php include "master-barang-view.php"; ?></div>
+				<div id="view"><?php include "cus-view.php"; ?></div>
 			</div>
 
 	</div>
 </div>
 
-<script src="/rzcell/model/form/sbrg/master-barang.js"></script>
+<script src="/rzcell/model/form/scus/cus.js"></script>

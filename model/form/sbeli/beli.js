@@ -7,7 +7,7 @@ $(document).ready(function(){
 function searchWithPagination(page_number, search){
 	$(this).html("SEARCHING...").attr("disabled", "disabled");
 	$.ajax({
-		url: 'model/form/sbrg/master-barang-search.php',
+		url: 'model/form/sbeli/beli-search.php',
 		type: 'POST',
 		data: {keyword: $("#keyword").val(), page: page_number, search: search},
 		dataType: "json",

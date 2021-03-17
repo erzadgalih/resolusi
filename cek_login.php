@@ -23,6 +23,7 @@ if (isset($_POST['login'])){
 		$_SESSION['sub_level'] = $row['sub_level'];
 		$_SESSION['keterangan_level'] = $row['keterangan_level'];
 		$_SESSION['tandatangan'] = $row['tandatangan'];
+		$_SESSION['periode'] = date('m/Y');
 
 		$_SESSION['kode_divisi'] = $row['kode_divisi'];
 		$_SESSION['nama_divisi'] = $row['nama_divisi'];

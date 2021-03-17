@@ -1,8 +1,8 @@
 <?php
 $keyword = $_POST['keyword']; 
-
+session_start();
 ob_start();
-include "cus.php";
+include "cus-view.php";
 $html = ob_get_contents(); 
 ob_end_clean();
 

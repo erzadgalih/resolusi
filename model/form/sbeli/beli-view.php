@@ -2,12 +2,11 @@
 	<table class="table table-bordered">
 		<tr>
 			<th>No</th>
-			<th>Kode Barang</th>
-			<th>Nama Barang</th>
-			<th>Jenis</th>
-			<th>Satuan</th>
-			<th>Harga Beli</th>
-			<th>Harga Jual</th>
+			<th>No Bukti</th>
+			<th>Tanggal</th>
+			<th>Supplier</th>
+			<th>Jumlah</th>
+			<th>Potongan di</th>
 			<th>Aksi</th>
 			
 		</tr>
@@ -16,7 +15,6 @@
 
 		include ($_SERVER['DOCUMENT_ROOT'].'/rzcell/config/database.php');
 		$periode = $_SESSION['periode'];
-
 		// $kode_divisi = $_SESSION['kode_divisi'];
 
 		$page = (isset($_POST['page']))? $_POST['page'] : 1;
@@ -31,9 +29,9 @@
 
 
 
-				$sql = mysqli_query($koneksi, "SELECT * FROM rz_brg  WHERE (kd_brg LIKE '".$param."' OR na_brg LIKE '".$param."' OR jenis LIKE '".$param."' OR satuan LIKE '".$param."') ORDER BY kd_brg DESC LIMIT ".$limit_start.",".$limit);
+				$sql = mysqli_query($koneksi, "SELECT * FROM rz_beli WHERE  (no_bukti LIKE '".$param."' OR namas LIKE '".$param."' OR nett LIKE '".$param."' OR tgl LIKE '".$param."') ORDER BY no_bukti DESC LIMIT ".$limit_start.",".$limit);
 
-				$sql2 = mysqli_query($koneksi, "SELECT COUNT(*) AS jumlah FROM rz_brg WHERE (kd_brg LIKE '".$param."' OR na_brg LIKE '".$param."' OR jenis LIKE '".$param."' OR satuan LIKE '".$param."') ORDER BY kd_brg DESC ");
+				$sql2 = mysqli_query($koneksi, "SELECT COUNT(*) AS jumlah FROM rz_beli WHERE (no_bukti LIKE '".$param."' OR namas LIKE '".$param."' OR nett LIKE '".$param."' OR tgl LIKE '".$param."') ORDER BY no_bukti DESC ");
 				$get_jumlah = mysqli_fetch_array($sql2);
 
 
@@ -42,9 +40,9 @@
 		} else {
 
 
-				$sql = mysqli_query($koneksi, "SELECT * FROM rz_brg WHERE e_tgl=LEFT($periode,7) ORDER BY kd_brg DESC LIMIT ".$limit_start.",".$limit);
+				$sql = mysqli_query($koneksi, "SELECT * FROM rz_beli where per='$periode' ORDER BY no_bukti DESC LIMIT ".$limit_start.",".$limit);
 
-				$sql2 = mysqli_query($koneksi, "SELECT COUNT(*) AS jumlah FROM rz_brg WHERE e_tgl=LEFT($periode,7) ORDER BY kd_brg DESC ");
+				$sql2 = mysqli_query($koneksi, "SELECT COUNT(*) AS jumlah FROM rz_beli WHERE per='$periode' ORDER BY no_bukti DESC ");
 				$get_jumlah = mysqli_fetch_array($sql2);
 			
 		}
@@ -56,14 +54,14 @@
 			<tr id="<?php echo $data["row_id"]; ?>">
 				<td><?php echo $no; ?></td>
 				<td>
-				<input type="button" name="view1" value="<?php echo $data["kd_brg"]; ?>" id="<?php echo $data["kd_brg"]; ?>" class="btn btn-info btn-block view_data1" />
+				<input type="button" name="view1" value="<?php echo $data["no_bukti"]; ?>" id="<?php echo $data["no_bukti"]; ?>" class="btn btn-info btn-block view_data1" />
 						<!-- modal detail-->
 						<div id="dataModal1" class="modal fade">
 							<div class="modal-dialog modal-lg">
 									<div class="modal-content">
 										<div class="modal-header">
 											<button type="button" class="close" data-dismiss="modal">&times;</button>
-											<h4 class="modal-title" style="color:blue;text-align:center;font-style:bold;">RIWAYAT PEMBELIAN</h4>
+											<h4 class="modal-title" style="color:blue;text-align:center;font-style:bold;">DETAIL PEMBELIAN</h4>
 										</div>
 										<div class="modal-body" id="DetailPO1">
 										</div>
@@ -75,13 +73,12 @@
 						</div> 
 						<!-- modal detail -->
 				</td>
-				<td><?php echo $data['na_brg']; ?></td>
-				<td><?php echo $data['jenis']; ?></td>
-				<td><?php echo $data['satuan']; ?></td>
-				<td><?php echo number_format($data["h_beli"],0,",","."); ?></td>
-				<td><?php echo number_format($data["h_jual"],0,",","."); ?></td>
+				<td><?php echo $data['tgl']; ?></td>
+				<td><?php echo $data['namas']; ?></td>
+				<td><?php echo number_format($data["nett"],0,",","."); ?></td>
+				<td><?php echo $data['potong']; ?></td>
 				<td>
-					<a href="#" type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal<?php echo $data['row_id']; ?>">Ubah</a>
+					<a href="#" type="button" class="btn btn-info btn-xs fa fa-edit" data-toggle="modal" data-target="#myModal<?php echo $data['row_id']; ?>">edit</a>
 					<a href="#hapusModal_<?php echo $id2 ?>" type="button" data-toggle="modal" type="button" class="btn btn-danger btn-xs" data-toggle='tooltip' title="Hapus">Hapus</a>
 				
 				
@@ -98,7 +95,7 @@
 
 									        </div>
 									        <div class="modal-body">
-									          <h3 style="text-align: center;"><p>Apakah anda yakin menghapus master barang</p> <?php echo $data['na_brg'] ?> </h3>									          
+									          <h3 style="text-align: center;"><p>Apakah anda yakin menghapus Transaksi Pembelian</p> <?php echo $data['no_bukti'] ?> </h3>									          
 									        </div>
 
 									        <!-- /.box-body -->
@@ -119,13 +116,13 @@
                 <div class="modal-content">
                   <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Update Master Barang</h4>
+                    <h4 class="modal-title">Update Transaksi Pembelian</h4>
                   </div>
                   <div class="modal-body">
                     <form role="form" action="" id="updatepp" method="POST">
                         <?php
                         $idd = $data['row_id']; 
-						$query_edit = mysqli_query($koneksi, "SELECT row_id,kd_brg,na_brg,jenis,satuan,h_beli,h_jual,satuan2,h_beli2,h_jual2,pakisi FROM rz_brg WHERE row_id='$idd'");
+						$query_edit = mysqli_query($koneksi, "SELECT * FROM rz_beli WHERE row_id='$idd'");
 						
 						//var_dump($query_edit);
 						
@@ -311,7 +308,8 @@ if(isset($_POST["hapus_data"])) {
 	$data_id = $_POST['data_id'];
 	//$no_bukti = $_POST['no_bukti'];
 	//var_dump($no_bukti);
-	$sqlNewData = "DELETE FROM rz_brg WHERE row_id = '$data_id' ";
+
+	$sqlNewData = "DELETE FROM rz_beli WHERE row_id = '$data_id' ";
 	  $koneksi->query($sqlNewData);
 	  //var_dump($sqlNewData);
 	  header('Location: ' . $_SERVER['HTTP_REFERER']);
@@ -319,10 +317,11 @@ if(isset($_POST["hapus_data"])) {
    else if (isset($_POST["updatepp"])) {
 				
 				$idd= $_POST["idd"];
-				$na_brg= $_POST["na_brg"];
-				$kdrz= $_POST["kdrz"];
-				$jenis= $_POST["jenis"];
-				$satuan= $_POST["satuan"];
+				$tgl= $_POST["tgl"];
+				$namas= $_POST["namas"];
+				$potong= $_POST["potong"];
+				$nett= $_POST["nett"];
+
 				$ket= $_POST["ket"];
 				$satuan2= $_POST["satuan2"];
 				$h_beli= $_POST["h_beli"];
@@ -347,9 +346,9 @@ if(isset($_POST["hapus_data"])) {
 			if(row_id != '')
 			{
 				$.ajax({
-					url:"model/form/sbrg/brg-detail-modal.php",
+					url:"model/form/sbeli/beli-detail-modal.php",
 					method:"POST",
-					data:{kd_brg:row_id},
+					data:{no_bukti:row_id},
 					success:function(data){
 						$('#DetailPO1').html(data);
 						$('#dataModal1').modal('show');
