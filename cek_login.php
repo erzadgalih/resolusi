@@ -12,7 +12,7 @@ if (isset($_POST['login'])){
 	$username = mysqli_real_escape_string($koneksi,$username);
 	$password = stripslashes($_REQUEST['password']);
 	$password = mysqli_real_escape_string($koneksi,$password);
-	$query=mysqli_query($koneksi,"SELECT * FROM users_web WHERE username='$username' && password='".md5($password)."'");
+	$query=mysqli_query($koneksi,"SELECT * FROM user1 WHERE nama='$username' && passmd5='".md5($password)."'");
 	$num_rows=mysqli_num_rows($query);
 	$row=mysqli_fetch_array($query, MYSQLI_ASSOC);
 	if (mysqli_num_rows($query) === 1 ){
@@ -23,6 +23,7 @@ if (isset($_POST['login'])){
 		$_SESSION['sub_level'] = $row['sub_level'];
 		$_SESSION['keterangan_level'] = $row['keterangan_level'];
 		$_SESSION['tandatangan'] = $row['tandatangan'];
+		$_SESSION['periode'] = date('m/Y');
 
 		$_SESSION['kode_divisi'] = $row['kode_divisi'];
 		$_SESSION['nama_divisi'] = $row['nama_divisi'];
@@ -43,8 +44,8 @@ if (isset($_POST['login'])){
 		// 	header('location:index.php?hal=dashboard-level-'.$_SESSION['level']);
 		// }
 
-	$sqlNewData = "UPDATE users_web SET login_terakhir=now() WHERE username = '$username' ";
-	$koneksi->query($sqlNewData);
+	// $sqlNewData = "UPDATE users_web SET login_terakhir=now() WHERE username = '$username' ";
+	// $koneksi->query($sqlNewData);
 
 	}
 	else{
