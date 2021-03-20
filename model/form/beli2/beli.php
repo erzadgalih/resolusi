@@ -1,50 +1,108 @@
-<?php 
 
+<?php 
+$periode = $_SESSION['periode'];
 $level = $_SESSION['level'];
 
+$count = "SELECT COUNT(*) FROM rz_beli where per='$periode' ORDER BY no_bukti DESC";
+$record = mysqli_query($koneksi, $count); 
+
+$sql = "SELECT * FROM rz_beli where per='$periode' ORDER BY no_bukti DESC";
+$result = mysqli_query($koneksi, $sql);
+
+$total_record = mysqli_fetch_array($record)[0];
+
 ?>
+
 <div class="row">
 	<div class="col-xs-12">
 		<div class="box box-default">
-
 			<div class="box-header with-border">
-				<div class="col-xs-12">
-					<h3 class="box-title">
-						TRANSAKSI PEMBELIAN
-					</h3>
-					<!-- <a href="?hal=proses-fbeli" type="button" class="pull-right btn btn-success"> <i class="fa fa-plus"></i>  TAMBAH TRANSAKSI</a> -->
-					<button type="button" class="pull-right btn btn-success" data-toggle="modal" data-target="#new_add"><i class="fa fa-plus"></i>
+				<h3 class="box-title">                         
+					<button type="button" class="btn btn-info" data-toggle="modal" data-target="#new_add"><i class="fa fa-plus"></i>
 						TAMBAH TRANSAKSI
 					</button>
+					
+				</h3>
+					<a href="?hal=dashboard-level-<?php echo $level ?>" type="button" class="pull-right btn btn-success"> <i class="fa fa-backward"></i>  Kembali</a>
 
-				</div>
 			</div>
+
 			<div class="box-body table-responsive">
-				<div class="row">
-					<div class="col-xs-12 col-sm-6">
-						<div class="input-group">
-							<input type="text" class="form-control" placeholder="Pencarian..." id="keyword">
-							<span class="input-group-btn">
-								<button class="btn btn-primary" type="button" id="btn-search">Cari</button>
-								<a href="" class="btn btn-warning">Reset</a>
-							</span>
-						</div>
-					</div>
+				<table id="example2" class="table table-bordered table-hover">
+					<thead>
+						<tr>
+							<th>No</th>
+							<th>No Bukti</th>
+							<th>Tanggal</th>
+							<th>Nama Supplier</th>
+							<th>Pengeluaran</th>
+							<th>Jumlah</th>
+							<th>Keterangan</th>
+			
+							<th>Opsi</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php
+						if (mysqli_num_rows($record) > 0) {						
+
+								$no = 0;
+							while($row = mysqli_fetch_array($result)) {
+								$no++;
+								$id = $row['row_id']; 
+
+								?>  
+								<tr>
+									<td><?php echo $no; ?></td>
+									<td><a href="?hal=proses-belid&nobuk=<?php echo $id ?>" type="button" id="<?php echo $row["no_bukti"]; ?>" class="btn btn-info btn-block" data-toggle='tooltip' title="Edit Detail"/><?php echo $row["no_bukti"]; ?></a></td>
+
+									<td><?php echo $row['tgl']; ?></td>
+									<td><?php echo $row['namas']; ?></td>
+									<td><?php echo $row['potong']; ?></td>
+									<td><?php echo $row['nett']; ?></td>
+									<td><?php echo $row['notes']; ?></td>
+
+									<td>
+										<a href="#hapusModal_<?php echo $id ?>" data-toggle="modal" type="button"><span><i class="fa fa-trash" data-toggle='tooltip' title="Hapus"></i></span></a>
+									</td>
+
+								<!-- / Modal Hapus sek pending seeeeek-->
+								<div id="hapusModal_<?php echo $id ?>" class="modal fade" data-backdrop="static" data-keyboard="false">
+									<div class="modal-dialog ">
+										<div class="modal-content">
+											<form role="form" method="post" action="">
+												<input type="hidden" name="row_id" value="<?php echo $id ?>">
+												<input type="hidden" name="user" value="<?php echo $_SESSION['username'] ?> ">
+												<div class="modal-header">
+													<button type="button" class="close" data-dismiss="modal">&times;</button>
+												</div>
+												<div class="modal-body">
+													<h3 style="text-align: center;"><p>Apakah anda yakin menghapus</p> <?php echo $row['no_bukti'] ?> </h3>
+												</div>
+												<!-- /.box-body -->
+												<div class="modal-footer">
+													<button type="button" class="btn btn-default " data-dismiss="modal">Batal</button>
+													<button type="submit" name="hapus_data" class="btn btn-primary">Hapus</button>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+								<!--/ Modal Hapus -->
+
+								</tr>
+							<?php }}?>
+						</tfoot>
+					</table>
+
 				</div>
 
-				<div id="view"><?php include "beli-view.php"; ?></div>
-
-
-
 			</div>
-
 	</div>
 </div>
 
-<script src="/rzcell/model/form/sbeli/beli.js"></script>
 
-
-
+  
 <!-- /.modal new_add  Atau Penambahan transaksi Baru-->
 
 <div class="modal fade" id="new_add" data-backdrop="static" data-keyboard="false">
@@ -153,47 +211,6 @@ $level = $_SESSION['level'];
     <!-- /.modal -->
     <!-- /.modal new_add -->
 
-
-
-<!-------------------- start koding refrensi pencarian namas supplier ---------------------------->
-
-<script>
-    $(document).ready(function () {
-        $('#namas').typeahead({
-            source: function (query, result) {
-                $.ajax({
-                    url: "model/form/sbeli/ajax_cari_namas.php",
-					data: 'query=' + query,            
-                    dataType: "json",
-                    type: "POST",
-                    success: function (data) {
-						result($.map(data, function (item) {
-							return item;
-                        }));
-                    }
-                });
-            }
-        });
-    });
-</script>
-<!--------------------------------- ISI KOLOM DARI NAMAS------------------------------------------------------------------->
-
-<script type="text/javascript">
-    function cek_database(){
-        var namas = $("#namas").val();
-        $.ajax({
-            url: 'model/form/sbeli/ajax2.php',
-            data:"namas="+namas ,
-        }).done(function (data) {
-            var json = data,
-            obj = JSON.parse(json);
-            $('#kodes').val(obj.kodes);
-			$('#alamat').val(obj.alamat);
-			$('#kota').val(obj.kota);
-        });
-    }
-</script>
-
 <!--------------------------------- fungsi tombol simpan modal TAMBAH TRX HEADER------------------------------------------------------------------->
 
 <?php 
@@ -237,3 +254,52 @@ $level = $_SESSION['level'];
 
 
  ?>
+
+ <script>
+ 	function detail(){
+ 		$(document).ready(function(){
+ 		        $("#edit_detail").submit(); // Submit the form
+ 		});
+ 	}
+ </script>
+
+
+<!-------------------- start koding refrensi pencarian namas supplier ---------------------------->
+
+<script>
+    $(document).ready(function () {
+        $('#namas').typeahead({
+            source: function (query, result) {
+                $.ajax({
+                    url: "model/form/beli2/ajax.php",
+					data: 'query=' + query,            
+                    dataType: "json",
+                    type: "POST",
+                    success: function (data) {
+						result($.map(data, function (item) {
+							return item;
+                        }));
+                    }
+                });
+            }
+        });
+    });
+</script>
+
+<!--------------------------------- ISI KOLOM DARI NAMAS------------------------------------------------------------------->
+
+<script type="text/javascript">
+    function cek_database(){
+        var namas = $("#namas").val();
+        $.ajax({
+            url: 'model/form/beli2/ajax.php',
+            data:"namas="+namas ,
+        }).done(function (data) {
+            var json = data,
+            obj = JSON.parse(json);
+            $('#kodes').val(obj.kodes);
+			$('#alamat').val(obj.alamat);
+			$('#kota').val(obj.kota);
+        });
+    }
+</script>

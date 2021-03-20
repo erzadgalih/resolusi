@@ -359,6 +359,8 @@ $level = $_SESSION['level'];
 <script src="assets/dist/js/jquery.chained.remote.js"></script>
 <script src="assets/dist/js/jquery.chained.remote.min.js"></script>
 
+<script src="assets/dist/js/typeahead.js"></script>
+
 	<script>
 // jQuery.noConflict(); 
 $(function () {

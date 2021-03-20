@@ -19,112 +19,90 @@ $result = mysqli_query($koneksi, $sql);
 				<div class="box-header with-border">
 					<div class="col-xs-12">
 						<h3 class="box-title">
-							FORM TAMBAH MASTER
+							FORM TAMBAH TRANSAKSI PEMBELIAN
 						</h3> 
-					<a href="?hal=proses-brg" type="button" class="pull-right btn btn-primary"> <i class="fa fa-backward"></i>  KEMBALI</a>
-					<script src="model/form/Jahit/process.js"></script> <!-- Load file process.js -->
+					<a href="?hal=proses-sbeli" type="button" class="pull-right btn btn-primary"> <i class="fa fa-backward"></i>  KEMBALI</a>
+					<!-- <script src="model/form/Jahit/process.js"></script> Load file process.js -->
 					</div>
 				</div>
 				<div class="panel-body">
  					 <div class="row form-group">
-	              <label for="" class="col-sm-2 control-label">Kode Barang</label>
+	             	 <label for="" class="col-sm-1 control-label">No Bukti</label>
 
-	              <div class="col-sm-2">
-	                <input type="text" step="any" class="form-control" name="kd_brg" id="" placeholder="kode barang" required>
-	              </div>
+					<div class="col-sm-2">
+						<input type="text" step="any" class="form-control" name="no_bukti" id="" placeholder="No Bukti" required>
+					</div>
 				  
-				  <label for="" class="col-sm-1 control-label">Kode</label>
-			<div class="col-sm-2">
-					<select class="form-control" name="kdrz" required  > 
-						<option value="">Pilih</option>
-	              		<option value="TK">Toko</option>
-	              		<option value="JS">Jasa</option>
-						<option value="HP">HandPhone</option>
-	              	</select>   
-			</div>
-				  
+
+					<label for="" class="col-sm-1 control-label">Tanggal</label>
+						<div class="col-sm-2">
+						<input type="text" class="form-control" name="tgl" id="" placeholder="Tanggal" required >
+					</div>  
+
+
+				  <label for="" class="col-sm-1 control-label">Jenis Pengeluaran</label>
+				  <div class="col-sm-2">
+							<select class="form-control" name="potong" required  > 
+								<option value="">Pilih</option>
+								<option value="LACI">Budget LACI</option>
+								<option value="KAS">Budget KAS</option>
+							</select>   
+				   </div>
 				  
 				 
-	            </div>
-				
-				 <div class="row form-group">
-	               <label for="" class="col-sm-2 control-label">Nama Barang</label>
-					 <div class="col-sm-5">
-	                <input type="text" class="form-control" name="na_brg" id="" placeholder="Nama Barang" required >
-	              </div>  
-				  
-				
-				  
             </div>
 				
-						 
-			 
-			
-			
+			<div class="row form-group">
+	              <label for="" class="col-sm-3 control-label">Data Suplier:</label>		 
+			</div>
+
 			<div class="row form-group">
 			
-			  <label class="col-sm-1 control-label">Jenis</label>
-			  <div class="col-sm-2">
-			 <input type="text" class="form-control" name="jenis" placeholder="Jenis" >
-              </div>
-			  
-			  <label class="col-sm-1 control-label">Note</label>
+			  <!-- <label class="col-sm-1 control-label">Kode Supplier</label> -->
+			  <!-- <div class="col-sm-1"> -->
+			 <!-- <input type="text" class="form-control" id="search_sup" name="sup" placeholder="Kodes" > -->
+			 <!-- <input type="text" name="city" id="search_city" placeholder="Type to search..." class="form-control">  -->
+			 <!-- <label class="demo-label">Cari Nama Suplier:</label><br/> <input type="text" name="txtCountry" id="txtCountry" class="typeahead"/> 
+              </div> -->
+			<!-- ---------------------------------------------------------- -->
+
+			  <label class="col-sm-0 control-label"></label>
 			  <div class="col-sm-4">
-			 <textarea type="text" step="any"  class="form-control" name="ket" id="" placeholder="Catatan"></textarea>
+			 <input type="text" step="any"  class="form-control" onchange="cek_database()" name="txtCountry" id="txtCountry" placeholder="Cari Nama Supplier"></input>
+              </div>	
+
+
+			  <label class="col-sm-0 control-label"></label>
+			  <div class="col-sm-2">
+			 <input readonly type="text" step="any"  class="form-control" name="kodes" id="kodes" placeholder="Kode Supplier"></input>
+              </div>	
+
+			  <label class="col-sm-0 control-label"></label>
+			  <div class="col-sm-3">
+			 <input readonly type="text" step="any"  class="form-control" name="alamat" id="alamat" placeholder="Alamat Supplier"></input>
               </div>	
 			  
+			  <label class="col-sm-0 control-label"></label>
+			  <div class="col-sm-2">
+			 <input readonly type="text" step="any"  class="form-control" name="kota" id="kota" placeholder="Kota Supplier"></input>
+              </div>	
+
 			</div>
-			
+		
+
 			<div class="row form-group">
-					
-					<label class="col-sm-1 control-label">Satuan Ecer</label>
-				<div class="col-sm-1">
-					<input type="text" class="form-control" name="satuan" placeholder="Satuan ecer" >												
+				<label class="col-sm-1 control-label">Catatan</label>
+				<div class="col-sm-5">	
+					<textarea type="text" step="any"  class="form-control" name="notes" id="" placeholder="Catatan"></textarea>										
                 </div>
-				
-					<label class="col-sm-1 control-label">Harga Beli Ecer </label>
-				<div class="col-sm-2">
-					<input type="text" class="form-control" name="h_beli" placeholder="Harga Beli Ecer" >												
-                </div>
-			
-					<label class="col-sm-1 control-label">Harga Jual Ecer </label>
-				<div class="col-sm-2">
-					<input type="text" class="form-control" name="h_jual" placeholder="Harga Jual Ecer" >												
-                </div>
-				
-		     </div>
-			
-			
-			
-			<div class="row form-group">
-					
-					<label class="col-sm-1 control-label">Satuan Grosir</label>
-				<div class="col-sm-1">
-					<input type="text" class="form-control" name="satuan2" placeholder="Satuan grosir" >												
-                </div>
-				
-					<label class="col-sm-1 control-label">Isi</label>
-				<div class="col-sm-1">
-					<input type="text" class="form-control" name="pakisi" placeholder="Isi" >												
-                </div>
-				
-					<label class="col-sm-1 control-label">Harga Beli Grosir </label>
-				<div class="col-sm-2">
-					<input type="text" class="form-control" name="h_beli2" placeholder="Harga Beli grosir" >												
-                </div>
-			
-					<label class="col-sm-1 control-label">Harga Jual Grosir </label>
-				<div class="col-sm-2">
-					<input type="text" class="form-control" name="h_jual2" placeholder="Harga Jual grosir" >												
-                </div>
-				
-		     </div>
+			</div>
+
 			
 					<div class="box-footer with-border">
 					<div class="col-xs-12">
 					<button href="" type="submit" name="simpan_qc_jahit" class="pull-right btn btn-primary" ><i class="fa  fa-check-square"> SIMPAN</i>
 					</div>
-				</div>
+					</div>
 				
 				<!-- BATAS AKHIR -->
 				</div>
@@ -165,13 +143,52 @@ $result = mysqli_query($koneksi, $sql);
 
 				?>
 
-<!------------------------------------------------>
+<!-------------------- start koding refrensi pencarian namas supplier ---------------------------->
+
+<script>
+    $(document).ready(function () {
+        $('#txtCountry').typeahead({
+            source: function (query, result) {
+                $.ajax({
+                    url: "model/form/fbeli/ajax_cari_namas.php",
+					data: 'query=' + query,            
+                    dataType: "json",
+                    type: "POST",
+                    success: function (data) {
+						result($.map(data, function (item) {
+							return item;
+                        }));
+                    }
+                });
+            }
+        });
+    });
+</script>
+<!--------------------------------- ISI KOLOM DARI NAMAS------------------------------------------------------------------->
+
+<script type="text/javascript">
+    function cek_database(){
+        var txtCountry = $("#txtCountry").val();
+        $.ajax({
+            url: 'model/form/fbeli/ajax2.php',
+            data:"txtCountry="+txtCountry ,
+        }).done(function (data) {
+            var json = data,
+            obj = JSON.parse(json);
+            $('#kodes').val(obj.kodes);
+			$('#alamat').val(obj.alamat);
+			$('#kota').val(obj.kota);
+        });
+    }
+</script>
+
+
 
 
 
 
 <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
-<script type="text/javascript">
+<!-- <script type="text/javascript">
     function cek_database(){
         var karakter = $("#karakter").val();
         $.ajax({
@@ -184,5 +201,5 @@ $result = mysqli_query($koneksi, $sql);
 			$('#kode').val(obj.kode);
         });
     }
-</script>
-<script src="model/form/Jahit/process.js"></script> 
+</script> -->
+<!-- <script src="model/form/Jahit/process.js"></script>  -->
