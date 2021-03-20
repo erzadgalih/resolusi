@@ -33,8 +33,17 @@ if ($_SESSION['level']=='15'){ //Pembelian
 	}
 //------------------------------------------
 	else if($_GET['hal']=="proses-beli"){ //List BELI PERIODE
-		include "model/form/sbeli/beli.php";
+		include "model/form/beli2/beli.php";
+		//include "model/form/sbeli/beli.php";
 	}
+
+	else if($_GET['hal']=="proses-belid"){ //List BELI PERIODE
+		include "model/form/beli2/beli-detail.php";
+		//include "model/form/sbeli/beli.php";
+	}
+
+//----------------------settt --------------------
+
 
 	else if($_GET['hal']=="proses-beli2"){ //List BELI SEMUA DATA 
 		include "model/form/sbeli2/beli2.php";

@@ -53,9 +53,9 @@
 			?>
 			<tr id="<?php echo $data["row_id"]; ?>">
 				<td><?php echo $no; ?></td>
-				<td>
+				<!-- <td>
 				<input type="button" name="view1" value="<?php echo $data["no_bukti"]; ?>" id="<?php echo $data["no_bukti"]; ?>" class="btn btn-info btn-block view_data1" />
-						<!-- modal detail-->
+						
 						<div id="dataModal1" class="modal fade">
 							<div class="modal-dialog modal-lg">
 									<div class="modal-content">
@@ -71,15 +71,17 @@
 									</div>
 							</div>
 						</div> 
-						<!-- modal detail -->
-				</td>
+						
+				</td> -->
+				 
+				<td><a href="?hal=master-lembur-detail&lembur_detail=<?php echo $id ?>" type="button" id="<?php echo $data["no_bukti"]; ?>" class="btn btn-info btn-block" data-toggle='tooltip' title="Edit Detail"/><?php echo $data["no_bukti"]; ?></a></td>
 				<td><?php echo $data['tgl']; ?></td>
 				<td><?php echo $data['namas']; ?></td>
 				<td><?php echo number_format($data["nett"],0,",","."); ?></td>
 				<td><?php echo $data['potong']; ?></td>
 				<td>
 					<a href="#" type="button" class="btn btn-info btn-xs fa fa-edit" data-toggle="modal" data-target="#myModal<?php echo $data['row_id']; ?>">edit</a>
-					<a href="#hapusModal_<?php echo $id2 ?>" type="button" data-toggle="modal" type="button" class="btn btn-danger btn-xs" data-toggle='tooltip' title="Hapus">Hapus</a>
+					<a href="#hapusModal_<?php echo $id2 ?>" type="button"  data-toggle="modal" type="button" class="btn btn-danger btn-xs fa fa-trash-o" data-toggle='tooltip' title="Hapus">Hapus</a>
 				
 				
 				<!--  Modal Hapus -->
