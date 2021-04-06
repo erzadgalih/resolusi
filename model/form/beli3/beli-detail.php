@@ -31,7 +31,7 @@
 					              <label for="" class="col-sm-2 control-label">No Bukti</label>
 
 									<div class="col-sm-2">
-										<input type="text" step="any"  class="form-control" name="nobukti" id="" placeholder="No Bukti" value="<?php echo $row_detail['no_bukti'] ?>" readonly>
+										<input type="text" step="any"  class="form-control" name="no_bukti" id="" placeholder="No Bukti" value="<?php echo $row_detail['no_bukti'] ?>" readonly>
 									</div>
 										<div class="col-sm-3">
 											<div class="input-group date">
@@ -73,7 +73,7 @@
 				        <?php } ?>
 				            <div class="modal-footer">
 				              <!-- <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button> -->
-				              <!-- <button type="submit" name="edit_no_bukti" class="btn btn-primary">Simpan</button> -->
+				              <button disabled type="submit" name="edit_no_bukti" class="btn btn-primary">Simpan</button>
 				            </div>
 				          </form>
 				        </div>
@@ -84,12 +84,12 @@
 				    <div class="box-header with-border">
 
 				    	<h3 class="box-title">
-				    		<button type="button" class="btn btn-info" data-toggle="modal" data-target="#new_add"><i class="fa fa-plus"></i>
+				    		<button disabled type="button" class="btn btn-info" data-toggle="modal" data-target="#new_add"><i class="fa fa-plus"></i>
 									Tambah Isi
 							</button>
 
 				    	</h3>
-				    		<a href="?hal=proses-beli" type="button" class="pull-right btn btn-success"> <i class="fa fa-backward"></i>  Kembali</a>
+				    		<a href="?hal=proses-beli2" type="button" class="pull-right btn btn-success"> <i class="fa fa-backward"></i>  Kembali</a>
 
 				    </div>
 					
@@ -125,10 +125,10 @@
 									<td><?php echo $row['rec']; ?></td>
 									<td><?php echo $row['kd_brg']; ?></td>
 									<td><?php echo $row['na_brg']; ?></td>
-									<td><?php echo number_format($row['qty'],0); ?></td>
+									<td><?php echo number_format($row['qty'],2); ?></td>
 									<td><?php echo $row['satuan']; ?></td>
-									<td><?php echo number_format($row['h_beli'],0); ?></td>
-									<td><?php echo number_format($row['total'],0); ?></td>
+									<td><?php echo number_format($row['h_beli'],2); ?></td>
+									<td><?php echo number_format($row['total'],2); ?></td>
 									<td>
 										<a href="#hapusModal_<?php echo $id ?>" data-toggle="modal" type="button"><span><i class="fa fa-trash" data-toggle='tooltip' title="Hapus"></i></span></a>
 									</td>
@@ -183,11 +183,10 @@
             </div>
             <div class="modal-body">
 			<div class="row form-group">
-			<input type="hidden" name="id" value="<?php echo $row_detail['row_id'] ?>">
 	             	 <label for="" class="col-sm-2 control-label">No Bukti</label>
 
 					<div class="col-sm-2">
-	                <input type="text" step="any" class="form-control" name="no_bukti" id="" placeholder="No_Bukti" value="<?php echo $row_detail['no_bukti'] ?>" required readonly>
+	                <input type="text" step="any" class="form-control" name="no_bukti" id="" placeholder="No_Bukti" value="#AUTO FILL" required disabled>
 	             	 </div>
 
 					<label for="" class="col-sm-1 control-label">Tanggal</label>
@@ -239,7 +238,7 @@
 
 				<label class="col-sm-1 control-label">Total</label>
 				<div class="col-sm-2">
-				<input type="text" step="any"  class="form-control" name="total" id="total" placeholder="Total" readonly></input>
+				<input type="text" step="any"  class="form-control" name="total" id="total" placeholder="Total"></input>
 				</div>	
 
    			</div>	
@@ -263,49 +262,44 @@
 
 
 <?php 
-		if(isset($_POST["new_trx"])) {
-			$cek_urut = "SELECT rec FROM rz_belid WHERE no_bukti='$no_bukti' ORDER BY rec DESC LIMIT 1";
-			$result_cek = mysqli_query($koneksi, $cek_urut);
-			$row_cek = mysqli_fetch_array($result_cek);
-			// var_dump($row_cek['no_urut']);
-			if ($row_cek['rec'] == NULL) {
-				$no_urut = 1;
-			} else {
-				$no_urut = $row_cek['rec']+1;
-			}
+	if(isset($_POST["new_trx"])) {
+		$periode = $_SESSION['periode'];
+		
+		$cek_urut = "SELECT substr(no_bukti,4,4) as no_bukti FROM rz_beli WHERE per='$periode' ORDER BY no_bukti DESC LIMIT 1";
+		$result_cek = mysqli_query($koneksi, $cek_urut);
+		$row_cek = mysqli_fetch_array($result_cek);
+		 // var_dump($row_cek['nomor']);
+		if ($row_cek['no_bukti'] == NULL) {
+			$nomor = 1;
+		} else {
+			$nomor = $row_cek['no_bukti']+1;
+			
+		}
 
-		$id = $_POST['id'];
+		$y = date('Y');
+		$m= date('m');
+		$no_bukti = 'BL-'.str_pad($nomor, 4, "0", STR_PAD_LEFT).'-'.$m.'-'.$y;;
+
+		// $no_bukti = 'LBR-'.$y1.$m.str_pad($nomor, 6, "0", STR_PAD_LEFT);;
+		var_dump($no_bukti); // hasil ini apa : contoh hasil : LBR-2103000001     jdikan BL-0005-09-2018
+
+		// $no_bukti = $_POST['no_bukti'];
 		$tgl = $_POST['tgl'];
-		$no_bukti = $_POST['no_bukti'];
-		$kd_brg = $_POST['kd_brg'];
-		$na_brg = $_POST['na_brg'];
-		$satuan = $_POST['satuan'];
-		$qty = $_POST['qty'];
-		$h_beli = $_POST['h_beli'];
-		$total = $_POST['total'];
+		$potong = $_POST['potong'];
+		$namas = $_POST['namas'];
+		$kodes = $_POST['kodes'];
+		$alamat = $_POST['alamat'];
+		$kota = $_POST['kota'];
+		$notes = $_POST['notes'];
 		$time = date('Y-m-d G:i:s');
-		$periode=$_SESSION['periode'];
-		$sqlNewData = "INSERT INTO rz_belid (rec,id,no_bukti,tgl, na_brg, kd_brg, satuan, qty, h_beli, total, e_tgl, per) VALUES ('$no_urut','$id','$no_bukti','$tgl','$na_brg','$kd_brg','$satuan','$qty','$h_beli','$total','$time','$periode') ";
+		$sqlNewData = "INSERT INTO rz_beli (no_bukti, tgl, potong, namas, kodes, alamat, kota, notes, e_tgl, per) VALUES ('$no_bukti','$tgl','$potong','$namas','$kodes','$alamat','$kota','$notes','$time','$periode') ";
 	    $koneksi->query($sqlNewData);
 
 
-		$total = "SELECT sum(total) as total FROM rz_belid WHERE no_bukti='$no_bukti' LIMIT 1";
-			$result_tot = mysqli_query($koneksi, $total);
-			$dia = mysqli_fetch_array($result_tot);
-		$totnil = $dia['total'];
-
-		$sqlNewData2 = "UPDATE rz_beli set nett='$totnil' where no_bukti='$no_bukti'";
-		$koneksi->query($sqlNewData2);	
-	    //var_dump($sqlNewData);
+	    var_dump($sqlNewData);
 	  header('Location: ' . $_SERVER['HTTP_REFERER']);
 	}
 
-	if(isset($_POST["hapus_data"])) {
-        $no_bukti = $_POST['no_bukti'];
-        $sqlNewDatad = "DELETE FROM rz_belid WHERE no_bukti = '$no_bukti' ";
-          $koneksi->query($sqlNewDatad);
-          header('Location: ' . $_SERVER['HTTP_REFERER']);
-      }
 
  ?>
 
@@ -318,7 +312,7 @@
         $('#na_brg').typeahead({
             source: function (query, result) {
                 $.ajax({
-                    url: "model/form/beli2/ajax4.php",
+                    url: "model/form/beli3/ajax4.php",
 					data: 'query=' + query,            
                     dataType: "json",
                     type: "POST",
@@ -339,7 +333,7 @@
     function cek_database3(){
         var na_brg = $("#na_brg").val();
         $.ajax({
-            url: 'model/form/beli2/ajax3.php',
+            url: 'model/form/beli3/ajax3.php',
             data:"na_brg="+na_brg ,
         }).done(function (data) {
             var json = data,
@@ -359,7 +353,7 @@
         $('#kd_brg').typeahead({
             source: function (query, result) {
                 $.ajax({
-                    url: "model/form/beli2/ajax5.php",
+                    url: "model/form/beli3/ajax5.php",
 					data: 'query=' + query,            
                     dataType: "json",
                     type: "POST",
@@ -378,7 +372,7 @@
     function cek_database4(){
         var kd_brg = $("#kd_brg").val();
         $.ajax({
-            url: 'model/form/beli2/ajax6.php',
+            url: 'model/form/beli3/ajax6.php',
             data:"kd_brg="+kd_brg ,
         }).done(function (data) {
             var json = data,
@@ -389,14 +383,3 @@
         });
     }
 </script>
-
-<script type="text/javascript">
-    $(document).ready(function(){
-      $("#qty").keyup(function(){
-        var qty  = parseInt($("#qty").val());
-        var h_beli  = parseInt($("#h_beli").val());
-        var total = qty*h_beli;
-        $("#total").val(total);
-      });
-    });
-  </script> 

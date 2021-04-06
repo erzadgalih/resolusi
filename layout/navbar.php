@@ -7,6 +7,12 @@
 
 			<div class="navbar-custom-menu">
 				<ul class="nav navbar-nav">
+<!--------  BATAS SUCI --------------->
+					<!-- Control Sidebar Toggle Button -->
+					<li>
+						<a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+					</li>
+<!--------  BATAS SUCI --------------->
 
 					<!-- Tasks: style can be found in dropdown.less -->
 					<li class="dropdown tasks-menu">
@@ -114,12 +120,7 @@ if(isset($_POST["ganti_per"])) {
 						</ul>
 					</li>
 
-<!--------  BATAS SUCI --------------->
-					<!-- Control Sidebar Toggle Button -->
-					<li>
-						<a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-					</li>
-<!--------  BATAS SUCI --------------->
+
 
 
 				</ul>

@@ -6,6 +6,8 @@ $sub_level = $_SESSION['sub_level'];
 $username = $_SESSION['username'];
 $nama_divisi= $_SESSION['nama_divisi'];
 $periode= $_SESSION['periode'];
+$date=date('Y-m-d');
+
 
 
 ///     untuk perhitungan jumlah daftar //////////////////
@@ -24,6 +26,22 @@ $rz3 = mysqli_fetch_array($rs3);
 $sq4 = "SELECT count(no_bukti) as belij FROM rz_beli where per='$periode' ";
 $rs4 = mysqli_query($koneksi, $sq4);
 $rz4 = mysqli_fetch_array($rs4);
+
+$sq5 = "SELECT count(no_bukti) as belij FROM rz_beli";
+$rs5 = mysqli_query($koneksi, $sq5);
+$rz5 = mysqli_fetch_array($rs5);
+
+$sq6 = "SELECT count(no_bukti) as jualj FROM rz_jual where tgl='$date' ";
+$rs6 = mysqli_query($koneksi, $sq6);
+$rz6 = mysqli_fetch_array($rs6);
+
+$sq7 = "SELECT count(no_bukti) as jualj FROM rz_jual where per='$periode'";
+$rs7 = mysqli_query($koneksi, $sq7);
+$rz7 = mysqli_fetch_array($rs7);
+
+$sq8 = "SELECT count(no_bukti) as jualj FROM rz_jual";
+$rs8 = mysqli_query($koneksi, $sq8);
+$rz8 = mysqli_fetch_array($rs8);
 //---------------------------------------------------------------
 
 
@@ -52,7 +70,7 @@ $rz4 = mysqli_fetch_array($rs4);
 					</a>
 					<ul class="treeview-menu">
 						<?php
-						if ($_SESSION['level']=='15'){
+						if ($_SESSION['level']=='1'){
 						echo '
 						<li><a href="?hal=proses-brg">BARANG <span class="label label-primary pull-right"> '.$rz1["brgj"].'</span></a></li>
 						<li><a href="?hal=proses-sup">SUPPLIER <span class="label label-primary pull-right"> '.$rz2["supj"].'</span></a></li>
@@ -63,7 +81,7 @@ $rz4 = mysqli_fetch_array($rs4);
 					</ul>
 				</li>
 				<li class="treeview">
-					<a href="#"
+					<a href="#">
 						<i class="fa fa-shopping-cart"></i> <span>PEMBELIAN</span>
 						<span class="pull-right-container">
 							<i class="fa fa-angle-left pull-right"></i>
@@ -71,10 +89,10 @@ $rz4 = mysqli_fetch_array($rs4);
 					</a>
 					<ul class="treeview-menu">
 						<?php
-						if ($_SESSION['level']=='15'){
+						if ($_SESSION['level']=='1'){
 							echo '
 							<li><a href="?hal=proses-beli">PERIODE '.$_SESSION["periode"].'<span class="label label-primary pull-right"> '.$rz4["belij"].'</span></a></li>
-							<li><a href="?hal=proses-beli2">SEMUA <span class="label label-primary pull-right"> '.$rz2["supj"].'</span></a></li>
+							<li><a href="?hal=proses-beli2">SEMUA <span class="label label-primary pull-right"> '.$rz5["belij"].'</span></a></li>
 							
 							';}
 						?>
@@ -82,40 +100,21 @@ $rz4 = mysqli_fetch_array($rs4);
 				</li>
 				<li class="treeview">
 					<a href="#">
-						<i class="fa fa-archive"></i> <span>PENJUALAN</span>
+						<i class="fa fa-shopping-cart"></i> <span>PENJUALAN</span>
 						<span class="pull-right-container">
 							<i class="fa fa-angle-left pull-right"></i>
 						</span>
 					</a>
 					<ul class="treeview-menu">
-						<li><a href="#"><i class="fa fa-angle-double-down"></i> Harian</a></li>
-						<?php if ($sub_level=='1'){
-						echo '
-						<li><a href="?hal=proses-verif-lembur-kabag-staf">Validasi Kabag<span class="label label-primary pull-right"> '.$resultfina21["dr21"].'</span></a></li>';
-						}
-						else if ($sub_level=='2') {
-						echo '<li><a href="?hal=master-lembur">Lembur</a></li>'; 
-						} ?>
-
-						<li><a href="#"><i class="fa fa-angle-double-down"></i> Bulanan</a></li>
-						<?php if ($sub_level=='1'){
-						echo '
-						<li><a href="?hal=verif-pengajuan-kabag">Karyawan<span class="label label-primary pull-right">'.$resultfina44["dr44"].'</span></a></li>';
-						}
-						else if ($sub_level=='2') {
-						echo '
-						<li><a href="?hal=master-pengajuan">Data Pengajuan</a></li>';
-						} ?>
-
-						<li><a href="#"><i class="fa fa-angle-double-down"></i> Semua</a></li>
-						<?php if ($sub_level=='1'){
-						echo '
-						<li><a href="?hal=proses-verif-lembur-kabag-staf">Validasi Kabag<span class="label label-primary pull-right"> '.$resultfina21["dr21"].'</span></a></li>';
-						}
-						else if ($sub_level=='2') {
-						echo '<li><a href="?hal=master-lembur">Lembur</a></li>'; 
-						} ?>
-
+						<?php
+						if ($_SESSION['level']=='1'){
+							echo '
+							<li><a href="?hal=proses-beli">TANGGAL '.$date.'<span class="label label-primary pull-right"> '.$rz6["jualj"].'</span></a></li>
+							<li><a href="?hal=proses-beli">PERIODE '.$_SESSION["periode"].'<span class="label label-primary pull-right"> '.$rz7["jualj"].'</span></a></li>
+							<li><a href="?hal=proses-beli2">SEMUA <span class="label label-primary pull-right"> '.$rz8["jualj"].'</span></a></li>
+							
+							';}
+						?>
 					</ul>
 				</li>
 				<li class="treeview">
@@ -126,7 +125,7 @@ $rz4 = mysqli_fetch_array($rs4);
 						</span>
 					</a>
 					<ul class="treeview-menu">
-					<?php if ($level=='15'){
+					<?php if ($level=='1'){
 									echo '
 						<li><a href="?hal=proses-verif-bon-ka">BARANG <span class="label label-primary pull-right"> '.$rz1["brgj"].'</span></a></li>
 						<li><a href="?hal=proses-verif-bon-ka">SUPLIER <span class="label label-primary pull-right"> '.$rz2["supj"].'</span></a></li>
