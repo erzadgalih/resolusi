@@ -2,9 +2,9 @@
 include 'auth.php';
 include "config/database.php";
 
-if ($_SESSION['level']=='15'){ //Pembelian
-	if($_GET['hal']=="dashboard-level-15"){
-		include 'model/dashboard-level-15.php';
+if ($_SESSION['level']=='1'){ //Pembelian
+	if($_GET['hal']=="dashboard-level-1"){
+		include 'model/dashboard-level-1.php';
 	}
 	/////////////////////-----------------MASTER ----------------------------//////////////////////////////////
 	else if($_GET['hal']=="proses-brg"){ //master barang
@@ -46,11 +46,11 @@ if ($_SESSION['level']=='15'){ //Pembelian
 
 
 	else if($_GET['hal']=="proses-beli2"){ //List BELI SEMUA DATA 
-		include "model/form/sbeli2/beli2.php";
+		include "model/form/beli3/beli.php";
 	}
 
-	else if($_GET['hal']=="proses-fbeli"){ //Transaksi BELI 
-		include "model/form/fbeli/Form-fbeli.php";
+	else if($_GET['hal']=="proses-belid2"){ //Transaksi BELI 
+		include "model/form/beli3/beli-detail.php";
 	}
 //------------------------------------------	
 

@@ -1,12 +1,12 @@
 
 <?php 
-$periode = $_SESSION['periode'];
+
 $level = $_SESSION['level'];
 
-$count = "SELECT COUNT(*) FROM rz_beli where per='$periode' ORDER BY no_bukti DESC";
+$count = "SELECT COUNT(*) FROM rz_beli ORDER BY no_bukti DESC";
 $record = mysqli_query($koneksi, $count); 
 
-$sql = "SELECT * FROM rz_beli where per='$periode' ORDER BY no_bukti DESC";
+$sql = "SELECT * FROM rz_beli ORDER BY no_bukti DESC";
 $result = mysqli_query($koneksi, $sql);
 
 $total_record = mysqli_fetch_array($record)[0];
@@ -18,9 +18,9 @@ $total_record = mysqli_fetch_array($record)[0];
 		<div class="box box-default">
 			<div class="box-header with-border">
 				<h3 class="box-title">                         
-					<button type="button" class="btn btn-info" data-toggle="modal" data-target="#new_add"><i class="fa fa-plus"></i>
+					<!-- <button type="button" class="btn btn-info" data-toggle="modal" data-target="#new_add"><i class="fa fa-plus"></i>
 						TAMBAH TRANSAKSI
-					</button>
+					</button> -->
 					
 				</h3>
 					<a href="?hal=dashboard-level-<?php echo $level ?>" type="button" class="pull-right btn btn-success"> <i class="fa fa-backward"></i>  Kembali</a>
@@ -54,7 +54,7 @@ $total_record = mysqli_fetch_array($record)[0];
 								?>  
 								<tr>
 									<td><?php echo $no; ?></td>
-									<td><a href="?hal=proses-belid&nobuk=<?php echo $id ?>" type="button" id="<?php echo $row["no_bukti"]; ?>" class="btn btn-info btn-block" data-toggle='tooltip' title="Ubah Detail"/><?php echo $row["no_bukti"]; ?></a></td>
+									<td><a href="?hal=proses-belid2&nobuk=<?php echo $id ?>" type="button" id="<?php echo $row["no_bukti"]; ?>" class="btn btn-info btn-block" data-toggle='tooltip' title="Ubah Detail"/><?php echo $row["no_bukti"]; ?></a></td>
 
 									<td><?php echo $row['tgl']; ?></td>
 									<td><?php echo $row['namas']; ?></td>
@@ -216,9 +216,9 @@ $total_record = mysqli_fetch_array($record)[0];
 
 <?php 
 	if(isset($_POST["new_trx"])) {
-		$periode = $_SESSION['periode'];
 		
-		$cek_urut = "SELECT substr(no_bukti,4,4) as no_bukti FROM rz_beli WHERE per='$periode' ORDER BY no_bukti DESC LIMIT 1";
+		
+		$cek_urut = "SELECT substr(no_bukti,4,4) as no_bukti FROM rz_beli ORDER BY no_bukti DESC LIMIT 1";
 		$result_cek = mysqli_query($koneksi, $cek_urut);
 		$row_cek = mysqli_fetch_array($result_cek);
 		 // var_dump($row_cek['nomor']);
@@ -234,7 +234,7 @@ $total_record = mysqli_fetch_array($record)[0];
 		$no_bukti = 'BL-'.str_pad($nomor, 4, "0", STR_PAD_LEFT).'-'.$m.'-'.$y;;
 
 		// $no_bukti = 'LBR-'.$y1.$m.str_pad($nomor, 6, "0", STR_PAD_LEFT);;
-		//var_dump($no_bukti); // hasil ini apa : contoh hasil : LBR-2103000001     jdikan BL-0005-09-2018
+		var_dump($no_bukti); // hasil ini apa : contoh hasil : LBR-2103000001     jdikan BL-0005-09-2018
 
 		// $no_bukti = $_POST['no_bukti'];
 		$tgl = $_POST['tgl'];
@@ -245,25 +245,13 @@ $total_record = mysqli_fetch_array($record)[0];
 		$kota = $_POST['kota'];
 		$notes = $_POST['notes'];
 		$time = date('Y-m-d G:i:s');
-		$sqlNewData = "INSERT INTO rz_beli (no_bukti, tgl, potong, namas, kodes, alamat, kota, notes, e_tgl, per) VALUES ('$no_bukti','$tgl','$potong','$namas','$kodes','$alamat','$kota','$notes','$time','$periode') ";
+		$sqlNewData = "INSERT INTO rz_beli (no_bukti, tgl, potong, namas, kodes, alamat, kota, notes, e_tgl) VALUES ('$no_bukti','$tgl','$potong','$namas','$kodes','$alamat','$kota','$notes','$time') ";
 	    $koneksi->query($sqlNewData);
-		//var_dump($sqlNewData);
+
+
+	    var_dump($sqlNewData);
 	  header('Location: ' . $_SERVER['HTTP_REFERER']);
 	}
-
-
-	if(isset($_POST["hapus_data"])) {
-        $row_id = $_POST['row_id'];
-		$nobuk = $row['no_bukti'];
-        var_dump($nobuk);
-        $sqlNewData = "DELETE FROM rz_beli WHERE row_id = '$row_id' ";
-          $koneksi->query($sqlNewData);
-        $sqlNewDatad = "DELETE FROM rz_belid WHERE no_bukti = '$nobuk' ";
-          $koneksi->query($sqlNewDatad);
-          //header('Location: ' . $_SERVER['HTTP_REFERER']);
-      }
-
-
 
 
  ?>
@@ -284,7 +272,7 @@ $total_record = mysqli_fetch_array($record)[0];
         $('#namas').typeahead({
             source: function (query, result) {
                 $.ajax({
-                    url: "model/form/beli2/ajax.php",
+                    url: "model/form/beli3/ajax.php",
 					data: 'query=' + query,            
                     dataType: "json",
                     type: "POST",
@@ -305,7 +293,7 @@ $total_record = mysqli_fetch_array($record)[0];
     function cek_database(){
         var namas = $("#namas").val();
         $.ajax({
-            url: 'model/form/beli2/ajax2.php',
+            url: 'model/form/beli3/ajax2.php',
             data:"namas="+namas ,
         }).done(function (data) {
             var json = data,
@@ -316,4 +304,3 @@ $total_record = mysqli_fetch_array($record)[0];
         });
     }
 </script>
-

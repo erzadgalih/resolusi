@@ -374,7 +374,7 @@ $(function () {
 		'scrollX'		: false,
 		'responsive'	: true,
 		'deferRender'	: true,
-		'lengthMenu'	: [[25, 50, -1], [25, 50, "All"]]
+		'lengthMenu'	: [[10, 50, -1], [10, 50, "All"]]
 		//'modal' : true,
 		//'responsive': {
 		//		details: {
@@ -393,7 +393,7 @@ $(function () {
 		'scrollX'		: false,
 		'responsive'	: true,
 		'deferRender'	: true,
-		'lengthMenu'	: [[25, 50, -1], [25, 50, "All"]]
+		'lengthMenu'	: [[10, 50, -1], [10, 50, "All"]]
 		//'modal' : true,
 		//'responsive': {
 		//		details: {
